@@ -1,0 +1,13 @@
+Question 2 Answers
+
+2a) 
+If B is purchased in all of the baskets, Pr(A U B) will be the same as Pr(A) which results in the confidence having the same value of 1 regardless of what items A represent. Lift doesn't suffer from the drawback because Support(B) is taken as the denominator and hence, the lift will be smaller if B appears in all of the basket. The same can be said for Conviction but now Support(B) is taken as the numerator and conviction will get close to 0 if B appears often.
+
+2b) 
+Confidence - We have established in the lecture notes that conf(A -> B) = S(B U A) / S(A). While S(A U B) = S(B U A), the denominator of the formula disallows the measure to be symmetrical for all values of S(A) and S(B).
+Lift - From the formula, lift(A -> B) = conf(A -> B)/ S(B) = S(A U B)/S(A) * 1/S(B) = S(A U B)/(S(A)*S(B)). lift(B -> A) = S(B U A)/S(B) * 1/S(A) = S(A U B)/(S(A)*S(B)) = lift(A -> B). Hence, this measure is symmetrical.
+Conviction - conv(A -> B) can be shown to be [S(A) - S(B)*S(A)]/[S(A) - S(B U A)]. While S(B)*S(A) and S(B U A) can be symmetrical, the other term 'S(A)' is unique to each input value and it will produce a different value if changed to S(B). Hence, the measure is not symmetrical.
+
+2c)
+The confidence measure has this property. To prove so, we can break down the formula into so: conf(A -> B) = S(B U A) / S(A) = Pr(B U A) / Pr(A). In a perfect implication condition, item B will always exist in baskets where item(s) A exist. Hence, Pr(B U A) = Pr(A) = Pr(B). Using this equality statement, we can deduce that given a perfect implication of A -> B, conf(A -> B) = Pr(A) / Pr(A) = 1.
+
