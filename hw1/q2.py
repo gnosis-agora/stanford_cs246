@@ -28,7 +28,7 @@ def get_triple(lists):
 		for ele in list:
 			if ele not in set:
 				set.append(ele)
-	return tuple(set)
+	return tuple(sorted(set)) if len(set) > 0 else ()
 
 frequent_items = lines.flatMap(lambda l : l.split()) \
 .map(lambda ele: (ele,1)) \
@@ -63,15 +63,10 @@ candidate_triples = lines.map(lambda l: l.split()) \
 .reduceByKey(lambda p1, p2: p1 + p2) \
 .filter(lambda x: x[1] >= 100) 
 
-# recommentation_list = lines.map(lambda l : process_line(l)) \
-# .flatMapValues(partial(combinations, r=2)) \
-# .subtract(friend_list) \
-# .map(lambda collection: (collection[1],1)) \
-# .reduceByKey(lambda c1, c2: c1 + c2) \
-# .flatMap(lambda (pair, count): ((pair[0],(pair[1],count)),(pair[1],(pair[0],count)))) \
-# .groupByKey().mapValues(list) \
-# .map(lambda (user,mutual_friend_list): (user,get_top_recommendations(mutual_friend_list))) \
-# 
-print (candidate_triples.take(5))
+freq_triples_conf = candidate_triples.flatMap(lambda (triple, count): (((triple[0],triple[1]),triple[2],count), ((triple[0],triple[2]),triple[1],count), ((triple[1],triple[2]),triple[0],count))) \
+.map(lambda (pair,item,count) : (pair,item,float(count)/float(freq_pairs_with_count[pair]))) \
+.sortBy(lambda x: -x[2])
+
+print (freq_triples_conf.take(40))
 # print frequent_itemset
 sc.stop()
