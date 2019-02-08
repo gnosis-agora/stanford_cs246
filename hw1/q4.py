@@ -6,7 +6,7 @@ import time
 import pdb
 import unittest
 from PIL import Image
-# import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 
 # Finds the L1 distance between two vectors
 # u and v are 1-dimensional np.array objects
@@ -159,21 +159,27 @@ def problem4():
         run_time = time.time() - start_time
         print("neighbors: {0} found in {1} seconds".format(neighbors,run_time))
         lsh_time += run_time
-    print()
+    print('')
     print("linear average: {0}".format(linear_time/10))
     print("lsh average: {0}".format(lsh_time/10))      
 
     # Plot error to L
     image_patches = [99,199,299,399,499,599,699,799,899,999]
-    error_arr = []
-    L = [l for l in range(10,22,2)]
-    for L in range(10,22,2):
-        linear_neighbors,lsh_neighbours = run_simulation(data,24,L)
-        error_arr.append(get_error(data, image_patches, linear_neighbors, lsh_neighbours))
-
-    plt.plot(L,error_arr)
+    # error_arr = []
+    
+    # for L in range(10,22,2):
+    #     linear_neighbors,lsh_neighbours = run_simulation(data,24,L)
+    #     error_arr.append(get_error(data, image_patches, linear_neighbors, lsh_neighbours))
+    # L = [l for l in range(10,22,2)]
+    # plt.clf() 
+    # plt.close()
+    # plt.plot(L,error_arr)
+    # plt.xlabel('L')
+    # plt.ylabel('error')
+    # plt.savefig('L_error.png')
 
     # Plot error to k
+    error_arr = []
     for k in range(16,26,2):
         linear_neighbors,lsh_neighbours = run_simulation(data,k,10)
         error_arr.append(get_error(data, image_patches, linear_neighbors, lsh_neighbours))
@@ -181,6 +187,9 @@ def problem4():
     print K
     print error_arr
     plt.plot(K,error_arr)
+    plt.xlabel('K')
+    plt.ylabel('error')
+    plt.savefig('K_error.png')
 
 #### TESTS #####
 
@@ -206,7 +215,7 @@ class TestLSH(unittest.TestCase):
 
 if __name__ == '__main__':
     # unittest.main() ### TODO: Uncomment this to run tests
-    # problem4()
-    start_time = time.time()
-    data = load_data("./data/patches.csv")
-    print("data loaded in %s seconds" % (time.time() - start_time))
+    problem4()
+    # start_time = time.time()
+    # data = load_data("./data/patches.csv")
+    # print("data loaded in %s seconds" % (time.time() - start_time))

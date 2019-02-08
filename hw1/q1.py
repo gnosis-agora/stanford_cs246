@@ -32,7 +32,7 @@ def get_top_recommendations(mututal_friend_list):
 	"""
 	# sort by top mutual friends desc
 	# Then sort by friend id asc
-	sorted_list = map(lambda friend: (int(friend[0]),friend[1]),sorted(mututal_friend_list,key=lambda ele: (-ele[1],ele[0])))
+	sorted_list = map(lambda friend: int(friend[0]),sorted(mututal_friend_list,key=lambda ele: (-ele[1],ele[0])))
 	return sorted_list[:10]
 
 friend_list = lines.flatMap(lambda l: get_friends_list(l))
@@ -46,8 +46,7 @@ recommentation_list = lines.map(lambda l : process_line(l)) \
 .flatMap(lambda (pair, count): ((pair[0],(pair[1],count)),(pair[1],(pair[0],count)))) \
 .groupByKey().mapValues(list) \
 .map(lambda (user,mutual_friend_list): (user,get_top_recommendations(mutual_friend_list))) \
-# .saveAsTextFile(output_filepath)
+.saveAsTextFile(output_filepath)
 
-print (recommentation_list.filter(lambda ele: ele[0] == 11).collect())
 # print (recommentation_list.collect())
 sc.stop()
